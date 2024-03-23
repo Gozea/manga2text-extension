@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Manga2Text",
+    "version": "0.1",
+
+    "description": "Translate manga pages with serverless AI application",
+
+    "action": {
+        "default_popup": "popup.html"
+    },
+
+    "content_scripts": [{
+          "matches": [
+            "*://*/*"
+          ],
+          "js": ["script.js"],
+          "run_at": "document_start"
+    }],
+
+    "background": {
+        "scripts": ["background.js"]
+    },
+
+    "permissions": [
+    	"webNavigation",
+        "webRequest",
+        "menus",
+        "activeTab"
+    ]
+}
