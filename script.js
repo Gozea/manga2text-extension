@@ -2,18 +2,29 @@
 function showImageOverlay(imageUrl, data) {
     // Create a div element for the overlay
     var overlay = document.createElement('div');
-    overlay.classList.add('image-overlay');
-    // url
-    overlay.style.backgroundImage = `url('${imageUrl}')`;
+    overlay.classList.add('overlay');
     //styling
     overlay.style.position = "fixed";
     overlay.style.width = "-moz-available";
     overlay.style.backgroundRepeat = "no-repeat";
-    //overlay.style.backgroundSize = "contain";
     overlay.style.paddingTop = "66.64%";
     overlay.style.left = "50%";
     overlay.style.transform = "translate(-50%, 0%)";
+    overlay.style.display = "grid";
     overlay.style.zIndex = "2";
+
+    //overlay-holder
+    var overlayholder = document.createElement('div')
+    overlayholder.style.overflow = "auto"
+    overlayholder.style.maxHeight = "80%"
+    overlayholder.style.position = "fixed"
+    overlay.appendChild(overlayholder)
+
+    // image
+    var img = document.createElement('img')
+    img.src = `${imageUrl}`
+    img.alt = "Translated image"
+    overlayholder.appendChild(img)
 
     //create back-overlay
     var backoverlay = document.createElement('div')
@@ -27,7 +38,7 @@ function showImageOverlay(imageUrl, data) {
 
     // create text bubble
     for (var i = 0 ; i < data.image.texts.length ; i++) {
-        createBubble(overlay, data.image.texts[i], data.image.coordinates[i]);
+        createBubble(overlayholder, data.image.texts[i], data.image.coordinates[i]);
     }
 
     // Append the overlay to the body
@@ -36,7 +47,6 @@ function showImageOverlay(imageUrl, data) {
 
     // Add click and mousemove event listeners to the overlay
     backoverlay.addEventListener('click', () => {
-        console.log("click")
         document.body.removeChild(overlay);
         document.body.removeChild(backoverlay);
     });
@@ -53,7 +63,7 @@ function createBubble(overlay, text, coordinates) {
     bubble.style.textOrientation = "upright";
     bubble.style.fontSize = "22px";
     bubble.style.padding = "3px";
-    bubble.style.position = "fixed";
+    bubble.style.position = "absolute";
     bubble.style.left = coordinates[0] + 'px'
     bubble.style.top = coordinates[1] + 'px'
     bubble.style.right = coordinates[2] + 'px'
