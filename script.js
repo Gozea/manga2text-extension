@@ -7,8 +7,9 @@ function showImageOverlay(imageUrl, data) {
     overlay.style.backgroundImage = `url('${imageUrl}')`;
     //styling
     overlay.style.position = "fixed";
-    overlay.style.width = "50%";
+    overlay.style.width = "-moz-available";
     overlay.style.backgroundRepeat = "no-repeat";
+    //overlay.style.backgroundSize = "contain";
     overlay.style.paddingTop = "66.64%";
     overlay.style.left = "50%";
     overlay.style.transform = "translate(-50%, 0%)";
@@ -34,7 +35,8 @@ function showImageOverlay(imageUrl, data) {
     document.body.appendChild(overlay);
 
     // Add click and mousemove event listeners to the overlay
-    document.body.addEventListener('click', () => {
+    backoverlay.addEventListener('click', () => {
+        console.log("click")
         document.body.removeChild(overlay);
         document.body.removeChild(backoverlay);
     });
@@ -45,12 +47,10 @@ function createBubble(overlay, text, coordinates) {
     var bubble = document.createElement('div');
     bubble.textContent = text
     bubble.style.border = "solid"
-    bubble.style.width = "fit-content"
-    bubble.style.height = "fit-content"
     bubble.style.color = "black"
     bubble.style.backgroundColor = "white"
-    //bubble.style.writingMode = "vertical-rl";
-    //bubble.style.textOrientation = "upright";
+    bubble.style.writingMode = "vertical-rl";
+    bubble.style.textOrientation = "upright";
     bubble.style.fontSize = "22px";
     bubble.style.padding = "3px";
     bubble.style.position = "fixed";
@@ -58,6 +58,8 @@ function createBubble(overlay, text, coordinates) {
     bubble.style.top = coordinates[1] + 'px'
     bubble.style.right = coordinates[2] + 'px'
     bubble.style.bottom = coordinates[3] + 'px'
+    bubble.style.width = (coordinates[2] - coordinates[0]) + 'px'
+    bubble.style.height = (coordinates[3] - coordinates[1]) + 'px'
     overlay.appendChild(bubble)
 }
 
